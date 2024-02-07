@@ -22,5 +22,6 @@ public class Task {
     private LocalDateTime deadlineAt;
     @NonNull
     private boolean isCompleted;
+    @NonNull
     private User creator;
 }
