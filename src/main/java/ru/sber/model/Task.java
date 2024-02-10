@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Data
@@ -14,8 +16,8 @@ public class Task {
     @NonNull
     private int id;
     @NonNull
-//    @NotEmpty(message = "Название не должно быть пустым!")
-//    @Size(min = 5, max = 32, message = "Название должно быть от 5 до 32 символов!")
+    @NotEmpty(message = "Название не должно быть пустым!")
+    @Size(min = 5, max = 32, message = "Название должно быть от 5 до 32 символов!")
     private String title;
     private String description;
     @NonNull
