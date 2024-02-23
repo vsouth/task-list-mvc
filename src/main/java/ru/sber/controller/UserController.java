@@ -43,8 +43,11 @@ public class UserController {
 
     @GetMapping("/logout")
     public String userAuth(HttpSession session, HttpServletRequest request) {
-        Object userId = request.getSession().getAttribute("user-id");
-        log.info("#logout user: " + userRepository.getUserById((Integer) userId));
+        if (request.getSession() == null || request.getSession().getAttribute("user-id") == null) {
+            return "redirect:/index";
+        }
+        Integer userId = (Integer) request.getSession().getAttribute("user-id");
+        log.info("#logout user: " + userRepository.getUserById(userId));
         request.getSession().invalidate();
         return "redirect:/index";
     }
