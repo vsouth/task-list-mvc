@@ -43,11 +43,11 @@ public class MemoryTaskRepository implements TaskRepository {
     }
 
     @Override
-    public boolean create(Task task) {
+    public boolean create(Task task, int userId) {
         ++database.LAST_TASKS_ID;
         task.setId(database.LAST_TASKS_ID);
         task.setCreatedAt(LocalDateTime.now());
-        task.setCreator(userRepository.getRandomUser());
+        task.setCreator(userRepository.getUserById(userId).get());
         return database.TASKS.add(task);
     }
 }

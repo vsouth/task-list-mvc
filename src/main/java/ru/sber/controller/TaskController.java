@@ -3,7 +3,6 @@ package ru.sber.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -14,6 +13,7 @@ import ru.sber.model.Priority;
 import ru.sber.model.Task;
 import ru.sber.repository.TaskRepository;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -42,13 +42,13 @@ public class TaskController {
     }
 
     @PostMapping("/create")
-    public String create(@ModelAttribute @Valid Task task,
-                         BindingResult bindingResult) {
+    public String create(@ModelAttribute @Valid Task task, BindingResult bindingResult, HttpServletRequest request) {
         log.info("#task " + task);
         if (bindingResult.hasErrors()) {
             return "create";
         }
-        taskRepository.create(task);
+
+        taskRepository.create(task, (int) request.getSession().getAttribute("user-id"));
         return "redirect:/tasks";
     }
 }
