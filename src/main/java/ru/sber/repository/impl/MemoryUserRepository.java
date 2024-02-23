@@ -6,6 +6,7 @@ import ru.sber.db.Database;
 import ru.sber.model.User;
 import ru.sber.repository.UserRepository;
 
+import java.util.Optional;
 import java.util.Random;
 
 @Repository
@@ -17,5 +18,24 @@ public class MemoryUserRepository implements UserRepository {
     @Override
     public User getRandomUser() {
         return database.USERS.get(RND.nextInt(database.LAST_USERS_ID));
+    }
+    @Override
+    public boolean createUser(User user) {
+        ++database.LAST_USERS_ID;
+        user.setId(database.LAST_USERS_ID);
+        System.out.println(database.LAST_USERS_ID);
+        return database.USERS.add(user);
+    }
+
+    @Override
+    public Optional<User> getUserByLogin(String login) {
+        return database.USERS.stream()
+                .filter(o -> o.getLogin().equals(login))
+                .findFirst();
+    }
+
+    @Override
+    public Optional<User> getUserById(int id) {
+        return Optional.ofNullable(database.USERS.get(id-1));
     }
 }
