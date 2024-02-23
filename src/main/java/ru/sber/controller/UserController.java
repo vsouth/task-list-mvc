@@ -3,6 +3,7 @@ package ru.sber.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +28,7 @@ public class UserController {
         Optional<User> existingUser = userRepository.getUserByLogin(user.getLogin());
         if (existingUser.isPresent() && existingUser.get().getPassword().equals(user.getPassword())) {
             session.setAttribute("user-id", existingUser.get().getId());
-            return "redirect:/tasks";
+            return "redirect:/tasks/my";
         }
         return "redirect:/index";
     }
@@ -37,6 +38,14 @@ public class UserController {
         log.info("#register user: " + user);
         userRepository.createUser(user);
         session.setAttribute("user-id", user.getId());
-        return "redirect:/tasks";
+        return "redirect:/tasks/my";
+    }
+
+    @GetMapping("/logout")
+    public String userAuth(HttpSession session, HttpServletRequest request) {
+        Object userId = request.getSession().getAttribute("user-id");
+        log.info("#logout user: " + userRepository.getUserById((Integer) userId));
+        request.getSession().invalidate();
+        return "redirect:/index";
     }
 }

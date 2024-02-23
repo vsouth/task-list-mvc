@@ -4,12 +4,14 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ru.sber.db.Database;
 import ru.sber.model.Task;
+import ru.sber.model.User;
 import ru.sber.repository.TaskRepository;
 import ru.sber.repository.UserRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 @AllArgsConstructor
@@ -47,7 +49,17 @@ public class MemoryTaskRepository implements TaskRepository {
         ++database.LAST_TASKS_ID;
         task.setId(database.LAST_TASKS_ID);
         task.setCreatedAt(LocalDateTime.now());
-        task.setCreator(userRepository.getUserById(userId).get());
-        return database.TASKS.add(task);
+        Optional<User> user = userRepository.getUserById(userId);
+        if (user.isPresent()) {
+            task.setCreator(user.get());
+            return database.TASKS.add(task);
+        }
+        return false;
+    }
+
+    public List<Task> findByUserId(int userId) {
+        return database.TASKS.stream()
+                .filter(item -> item.getCreator().getId() == userId)
+                .collect(Collectors.toList());
     }
 }

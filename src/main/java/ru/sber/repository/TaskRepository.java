@@ -17,4 +17,6 @@ public interface TaskRepository {
     void update(Task task);
 
     boolean create(Task task, int userId);
+
+    public List<Task> findByUserId(int userId);
 }

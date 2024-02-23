@@ -23,7 +23,6 @@ public class MemoryUserRepository implements UserRepository {
     public boolean createUser(User user) {
         ++database.LAST_USERS_ID;
         user.setId(database.LAST_USERS_ID);
-        System.out.println(database.LAST_USERS_ID);
         return database.USERS.add(user);
     }
 

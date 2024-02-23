@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Список задач</title>
+</head>
+<body>
+<h1>Список задач</h1>
+<table>
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Название</th>
+    <th>Приоритет</th>
+    <th>Статус</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="task: ${tasks}">
+    <td th:text="${task.id}">id</td>
+    <td th:text="${task.title}">title</td>
+    <td th:text="${task.priority.value}">prior</td>
+    <td th:text="${task.completed}">compl</td>
+  </tr>
+  </tbody>
+</table>
+<a th:href="@{/user/logout}">Выйти</a>
+</body>
+</html>
