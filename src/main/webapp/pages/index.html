@@ -1,10 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Домашняя страница</title>
+    <title>Index</title>
 </head>
 <body>
-<h1 align="center">Welcome to the club!</h1>
+<div align="center">
+    <h1>Log in!</h1>
+    <form th:action="@{/user/login}" th:method="POST" th:object="${user}">
+        <div>
+            <input type="text" th:name="login" th:field="*{login}">
+        </div>
+        <div>
+            <input type="password" th:name="password" th:field="*{password}">
+        </div>
+        <button type="submit">log in</button>
+    </form>
+</div>
+<div align="center">
+    <h1>Register!</h1>
+    <form th:action="@{/user/register}" th:method="POST" th:object="${user}">
+        <div>
+            <input type="text" th:name="login" th:field="*{login}">
+        </div>
+        <div>
+            <input type="password" th:name="password" th:field="*{password}">
+        </div>
+        <button type="submit">register</button>
+    </form>
+</div>
 </body>
 </html>
